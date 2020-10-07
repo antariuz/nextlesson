@@ -93,7 +93,6 @@ public class MSPersonDAO implements PersonDAO {
             e.printStackTrace();
         }
         // EXCEPTION ? NULLPOINTER? if person goes null
-        System.out.println(id);
         return id;
     }
 
