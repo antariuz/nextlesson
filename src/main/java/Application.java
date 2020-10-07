@@ -16,15 +16,20 @@ public class Application {
     public static void main(String[] args) {
 
         driverJBDCInitialization();
+        MSPersonDAO msPersonDAO = new MSPersonDAO();
 
         Person person = new Person.Builder()
-                .withID(1)
-                .withName("Sponge")
-                .withSurname("Bob")
-                .withAge(1)
+
+                .withName("MICHAEL")
+                .withSurname("BORHSOG")
+                .withAge(444)
                 .build();
-        MSPersonDAO msPersonDAO = new MSPersonDAO();
-        msPersonDAO.addPerson(person);
+
+//        msPersonDAO.addPerson(person);
+//        msPersonDAO.getPersonByIdd(4L);
+//        msPersonDAO.removePersonById(5L);
+//        msPersonDAO.getAllPerson();
+//        msPersonDAO.updatePerson(person);
 
 
     }

@@ -1,7 +1,7 @@
 package model;
 
 public class Person {
-    private Integer id;
+    private Long id;
     private String name;
     private String surname;
     private Integer age;
@@ -14,7 +14,7 @@ public class Person {
             newPerson = new Person();
         }
 
-        public Builder withID(Integer id){
+        public Builder withID(Long id){
             newPerson.id = id;
             return this;
         }
@@ -40,11 +40,11 @@ public class Person {
 
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
