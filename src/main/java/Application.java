@@ -20,8 +20,8 @@ public class Application {
 
         Person person = new Person.Builder()
 
-                .withName("MICHAEL")
-                .withSurname("BORHSOG")
+                .withName("sPongeMan")
+                .withSurname("Klichko")
                 .withAge(444)
                 .build();
 
@@ -30,6 +30,7 @@ public class Application {
 //        msPersonDAO.removePersonById(5L);
 //        msPersonDAO.getAllPerson();
 //        msPersonDAO.updatePerson(person);
+        System.out.println(msPersonDAO.getPersonLikeName("Sponge"));
 
 
     }

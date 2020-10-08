@@ -20,8 +20,8 @@ public class MSPersonDAO implements PersonDAO {
         List<Person> list = null;
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM persons")) {
-            ResultSet resultSet = preparedStatement.executeQuery();
+                     connection.prepareStatement("SELECT * FROM person");
+             ResultSet resultSet = preparedStatement.executeQuery()) {
             list = new ArrayList<>();
             while (resultSet.next()) {
                 Person person = new Person();
@@ -34,43 +34,53 @@ public class MSPersonDAO implements PersonDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // EXCEPTION of NULLPOINTER? if list goes null
         return list;
     }
 
-    public Person getPersonById() {
-        return null;
-    }
-
-    public Person getPersonByIdd(Long id) {
+    public Person getPersonById(Long id) {
         Person person = null;
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM persons WHERE id='" + id + "'")) {
-            ResultSet resultSet = preparedStatement.executeQuery();
+                     connection.prepareStatement("SELECT * FROM person WHERE id='" + id + "'");
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            resultSet.next();
+            person = new Person();
+            person.setId(resultSet.getLong(1));
+            person.setName(resultSet.getString(2));
+            person.setSurname(resultSet.getString(3));
+            person.setAge(resultSet.getInt(4));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return person;
+    }
+
+    public List<Person> getPersonLikeName(String name) {
+        List<Person> list = null;
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement
+                     = connection.prepareStatement("SELECT * FROM person WHERE name LIKE '%" + name + "%'");
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            list = new ArrayList<>();
             while (resultSet.next()) {
-                person = new Person();
+                Person person = new Person();
                 person.setId(resultSet.getLong(1));
                 person.setName(resultSet.getString(2));
                 person.setSurname(resultSet.getString(3));
                 person.setAge(resultSet.getInt(4));
+                list.add(person);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // EXCEPTION ? NULLPOINTER? if person goes null
-        return person;
-    }
-
-    public Person getPersonLikeName(String name) {
-        return null;
+        return list;
     }
 
     public Long addPerson(Person person) {
         Long id = null;
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO persons(name, surname, age) VALUES(?,?,?)")) {
+                     connection.prepareStatement("INSERT INTO person(name, surname, age) VALUES(?,?,?)")) {
             preparedStatement.setString(1, person.getName());
             preparedStatement.setString(2, person.getSurname());
             if (person.getAge() == null || person.getAge() < 0) {
@@ -84,7 +94,7 @@ public class MSPersonDAO implements PersonDAO {
         }
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM persons ORDER BY id DESC LIMIT 0, 1")) {
+                     connection.prepareStatement("SELECT * FROM person ORDER BY id DESC LIMIT 0, 1")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 id = resultSet.getLong("id");
@@ -92,14 +102,13 @@ public class MSPersonDAO implements PersonDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // EXCEPTION ? NULLPOINTER? if person goes null
         return id;
     }
 
     public void updatePerson(Person person) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("update persons set name = ?, surname = ?, age = ? where id = ?")) {
+                     connection.prepareStatement("update person set name = ?, surname = ?, age = ? where id = ?")) {
             preparedStatement.setString(1, person.getName());
             preparedStatement.setString(2, person.getSurname());
             if (person.getAge() == null || person.getAge() < 0) {
@@ -118,7 +127,7 @@ public class MSPersonDAO implements PersonDAO {
         //Check if the person with ID does exist ?
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE FROM persons WHERE id='" + personId + "'")) {
+                     connection.prepareStatement("DELETE FROM person WHERE id='" + personId + "'")) {
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

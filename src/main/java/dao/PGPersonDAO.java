@@ -10,11 +10,11 @@ public class PGPersonDAO implements PersonDAO {
         return null;
     }
 
-    public Person getPersonById() {
+    public Person getPersonById(Long id) {
         return null;
     }
 
-    public Person getPersonLikeName(String name) {
+    public List<Person> getPersonLikeName(String name) {
         return null;
     }
 
