@@ -1,8 +1,8 @@
 package model;
 
-public class PersonDTO {
+public class PersonDTO implements PersonFactory {
 
-    public Person createPerson(PersonDTO personDTO) {
+    public Person createPerson(PersonDTO personDTO)  {
         Person person = new Person();
         person.setId(personDTO.getID());
         person.setName(personDTO.getName());
