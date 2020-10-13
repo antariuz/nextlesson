@@ -27,9 +27,9 @@ public class Application {
 //                .build();
 
 //        msPersonDAO.addPerson(person);
-//        msPersonDAO.getPersonByIdd(4L);
+//        System.out.println(msPersonDAO.getPersonByID(9L));
 //        msPersonDAO.removePersonById(5L);
-        msPersonDAO.getAllPerson();
+        System.out.println(msPersonDAO.getAllPerson());
 //        msPersonDAO.updatePerson(person);
 //        System.out.println(msPersonDAO.getPersonLikeName("Sponge"));
 

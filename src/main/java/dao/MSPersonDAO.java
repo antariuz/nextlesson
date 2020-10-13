@@ -17,12 +17,11 @@ public class MSPersonDAO implements PersonDAO {
     private static final String PASSWORD = "32167";
 
     public List<Person> getAllPerson() {
-        List<Person> list = null;
+        List<Person> list = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
                      connection.prepareStatement("SELECT * FROM person");
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            list = new ArrayList<>();
             while (resultSet.next()) {
                 Person person = new Person();
                 person.setId(resultSet.getLong(1));
@@ -37,18 +36,19 @@ public class MSPersonDAO implements PersonDAO {
         return list;
     }
 
-    public Person getPersonById(Long id) {
+    public Person getPersonByID(Long id) {
         Person person = null;
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
                      connection.prepareStatement("SELECT * FROM person WHERE id='" + id + "'");
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            resultSet.next();
-            person = new Person();
-            person.setId(resultSet.getLong(1));
-            person.setName(resultSet.getString(2));
-            person.setSurname(resultSet.getString(3));
-            person.setAge(resultSet.getInt(4));
+            if (resultSet.next()) {
+                person = new Person();
+                person.setId(resultSet.getLong(1));
+                person.setName(resultSet.getString(2));
+                person.setSurname(resultSet.getString(3));
+                person.setAge(resultSet.getInt(4));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -123,8 +123,7 @@ public class MSPersonDAO implements PersonDAO {
         }
     }
 
-    public void removePersonById(Long personId) {
-        //Check if the person with ID does exist ?
+    public void removePersonByID(Long personId) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
                      connection.prepareStatement("DELETE FROM person WHERE id='" + personId + "'")) {

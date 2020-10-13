@@ -10,7 +10,7 @@ public class PGPersonDAO implements PersonDAO {
         return null;
     }
 
-    public Person getPersonById(Long id) {
+    public Person getPersonByID(Long id) {
         return null;
     }
 
@@ -26,7 +26,7 @@ public class PGPersonDAO implements PersonDAO {
 
     }
 
-    public void removePersonById(Long personId) {
+    public void removePersonByID(Long personId) {
 
     }
 }
