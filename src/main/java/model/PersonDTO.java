@@ -1,14 +1,44 @@
 package model;
 
-public class PersonDTO implements PersonFactory {
+public class PersonDTO {
 
-    public Person createPerson(PersonDTO personDTO)  {
-        Person person = new Person();
-        person.setId(personDTO.getID());
-        person.setName(personDTO.getName());
-        person.setSurname(personDTO.getSurname());
-        person.setAge(personDTO.getAge());
-        return person;
+    private Long id;
+    private String name;
+    private String surname;
+    private Integer age;
+
+    public PersonDTO(){}
+
+    public Long getID() {
+        return id;
+    }
+
+    public void setID(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
 }
