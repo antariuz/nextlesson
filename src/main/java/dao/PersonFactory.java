@@ -1,22 +1,24 @@
+package dao;
+
 import model.Person;
 import model.PersonDTO;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PersonFactory {
+enum PersonFactory {
 
     //SINGLETON IMPLEMENTATION
-    enum SingletonHolder {
-        INSTANCE;
+    INSTANCE;
 
-        public SingletonHolder getInstance() {
-            return INSTANCE;
-        }
+    PersonFactory() {
     }
 
-    private PersonFactory() {
+    public static PersonFactory getInstance() {
+        return INSTANCE;
     }
 
     public PersonDTO createPersonDTO(Person person) {
@@ -26,6 +28,27 @@ public class PersonFactory {
         personDTO.setSurname(person.getSurname());
         personDTO.setAge(person.getAge());
         return personDTO;
+    }
+
+    public Person createPersonVO(ResultSet resultSet) {
+        Person person = new Person();
+        try {
+            while (resultSet.next()) {
+                person.setId(resultSet.getLong("id"));
+                person.setName(resultSet.getString("name"));
+                person.setSurname(resultSet.getString("surname"));
+                person.setAge(resultSet.getInt("age"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return person;
     }
 
     public Person createPersonVO(PersonDTO personDTO) {

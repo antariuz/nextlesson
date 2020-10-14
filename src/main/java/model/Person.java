@@ -81,6 +81,6 @@ public class Person {
 
     @Override
     public String toString() {
-        return "Person[ID: " + id + ", Name: " + name + ", Surname: " + surname + ", Age: " + age + "]";
+        return "Person{ID: " + id + ", Name: " + name + ", Surname: " + surname + ", Age: " + age + "}";
     }
 }

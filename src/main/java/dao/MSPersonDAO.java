@@ -18,18 +18,13 @@ public class MSPersonDAO implements PersonDAO {
 
     public List<Person> getAllPerson() {
         List<Person> list = new ArrayList<>();
+        PersonFactory personFactory = PersonFactory.getInstance();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
                      connection.prepareStatement("SELECT * FROM person");
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            while (resultSet.next()) {
-                Person person = new Person();
-                person.setId(resultSet.getLong(1));
-                person.setName(resultSet.getString(2));
-                person.setSurname(resultSet.getString(3));
-                person.setAge(resultSet.getInt(4));
-                list.add(person);
-            }
+            //алло бля, тут лист нужен. переделать нахуй
+            personFactory.createPersonVO(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -44,10 +39,10 @@ public class MSPersonDAO implements PersonDAO {
              ResultSet resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
                 person = new Person();
-                person.setId(resultSet.getLong(1));
-                person.setName(resultSet.getString(2));
-                person.setSurname(resultSet.getString(3));
-                person.setAge(resultSet.getInt(4));
+                person.setId(resultSet.getLong("id"));
+                person.setName(resultSet.getString("name"));
+                person.setSurname(resultSet.getString("surname"));
+                person.setAge(resultSet.getInt("age"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,10 +59,10 @@ public class MSPersonDAO implements PersonDAO {
             list = new ArrayList<>();
             while (resultSet.next()) {
                 Person person = new Person();
-                person.setId(resultSet.getLong(1));
-                person.setName(resultSet.getString(2));
-                person.setSurname(resultSet.getString(3));
-                person.setAge(resultSet.getInt(4));
+                person.setId(resultSet.getLong("id"));
+                person.setName(resultSet.getString("name"));
+                person.setSurname(resultSet.getString("surname"));
+                person.setAge(resultSet.getInt("age"));
                 list.add(person);
             }
         } catch (SQLException e) {

@@ -1,6 +1,7 @@
 package service.impl;
 
 import dao.MSPersonDAO;
+import dao.PersonDAO;
 import model.Person;
 import service.PersonService;
 
@@ -10,24 +11,24 @@ import java.util.List;
 public class PersonServiceImpl implements PersonService {
 
     public List<Person> addAndGetAllPerson(Person person) {
-        MSPersonDAO msPersonDAO = new MSPersonDAO();
-        msPersonDAO.addPerson(person);
-        return msPersonDAO.getAllPerson();
+        PersonDAO personDAO = new MSPersonDAO();
+        personDAO.addPerson(person);
+        return personDAO.getAllPerson();
     }
 
     public void addPersonList(List<Person> list) {
-        MSPersonDAO msPersonDAO = new MSPersonDAO();
-        msPersonDAO.getAllPerson().addAll(list);
+        PersonDAO personDAO = new MSPersonDAO();
+        personDAO.getAllPerson().addAll(list);
     }
 
     public void updatePerson(Person person) {
-        MSPersonDAO msPersonDAO = new MSPersonDAO();
-        msPersonDAO.updatePerson(person);
+        PersonDAO personDAO = new MSPersonDAO();
+        personDAO.updatePerson(person);
     }
 
     public void removePersonByID(Long id) {
-        MSPersonDAO msPersonDAO = new MSPersonDAO();
-        msPersonDAO.removePersonByID(id);
+        PersonDAO personDAO = new MSPersonDAO();
+        personDAO.removePersonByID(id);
     }
 
 }
