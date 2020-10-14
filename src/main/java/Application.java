@@ -1,4 +1,6 @@
 import dao.MSPersonDAO;
+import model.Person;
+import service.impl.PersonServiceImpl;
 
 import java.sql.*;
 
@@ -17,22 +19,15 @@ public class Application {
     public static void main(String[] args) {
 
         driverJBDCInitialization();
-        MSPersonDAO msPersonDAO = new MSPersonDAO();
+        PersonServiceImpl personService = new PersonServiceImpl();
 
-//        Person person = new Person.Builder()
-//
-//                .withName("sPongeMan")
-//                .withSurname("Klichko")
-//                .withAge(444)
-//                .build();
+        Person person = new Person.Builder()
+                .withName("Vladimir")
+                .withSurname("Zelenskiy")
+                .withAge(0)
+                .build();
 
-//        msPersonDAO.addPerson(person);
-//        System.out.println(msPersonDAO.getPersonByID(9L));
-//        msPersonDAO.removePersonById(5L);
-        System.out.println(msPersonDAO.getAllPerson());
-//        msPersonDAO.updatePerson(person);
-//        System.out.println(msPersonDAO.getPersonLikeName("Sponge"));
-
+        personService.addAndGetAllPerson(person);
 
     }
 }

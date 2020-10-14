@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface PersonService {
     List<Person> addAndGetAllPerson(Person person);
-    void addPersonList(List<Person> personList);
+    void addPersonList(List<Person> list);
     void updatePerson (Person person);
-    void removePersonById (Long personId);
+    void removePersonByID (Long id);
 }

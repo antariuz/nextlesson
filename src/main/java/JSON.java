@@ -1,22 +1,30 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.Person;
 
-import java.io.File;
 import java.io.IOException;
 
 public class JSON {
 
-    private final static String baseFile = "person.json";
-
-    public static void toJSON(Person person) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(new File(baseFile), person);
-        System.out.println("json created!");
+    public void toJSON(Person person) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = null;
+        try {
+            json = objectMapper.writeValueAsString(person);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(json);
     }
 
-    public static Person toJavaObject() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(new File(baseFile), model.Person.class);
+    public Person toJavaObject(String json) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Person person = new Person();
+        try {
+            person = objectMapper.readValue(json, model.Person.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return person;
     }
 
 }
