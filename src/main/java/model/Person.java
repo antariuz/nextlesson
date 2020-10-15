@@ -1,16 +1,10 @@
 package model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class Person {
 
-    @JsonProperty("Number")
     private Long id;
-    @JsonProperty("Number")
     private String name;
-    @JsonProperty("Number")
     private String surname;
-    @JsonProperty("Number")
     private Integer age;
 
     public static class Builder {

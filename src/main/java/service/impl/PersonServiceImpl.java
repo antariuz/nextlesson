@@ -16,6 +16,11 @@ public class PersonServiceImpl implements PersonService {
         return personDAO.getAllPerson();
     }
 
+    public List<Person> getAllPerson() {
+        PersonDAO personDAO = new MSPersonDAO();
+        return personDAO.getAllPerson();
+    }
+
     public void addPersonList(List<Person> list) {
         PersonDAO personDAO = new MSPersonDAO();
         personDAO.getAllPerson().addAll(list);

@@ -19,14 +19,15 @@ public class Application {
 
         driverJBDCInitialization();
         PersonServiceImpl personService = new PersonServiceImpl();
+        JSON json = new JSON();
 
-        Person person = new Person.Builder()
-                .withName("Vladimir")
-                .withSurname("Zelenskiy")
-                .withAge(0)
-                .build();
+//        Person person = new Person.Builder()
+//                .withName("Vladimir")
+//                .withSurname("Zelenskiy")
+//                .withAge(0)
+//                .build();
 
-        personService.addAndGetAllPerson(person);
+//        json.toJSON(personService.getAllPerson());
 
     }
 }
