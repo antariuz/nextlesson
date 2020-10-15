@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 enum PersonFactory {
 
@@ -60,14 +59,55 @@ enum PersonFactory {
         return person;
     }
 
-    public List<PersonDTO> createDTOList(List<Person> listDTO) {
-        if (listDTO == null) return new ArrayList<>();
-        return listDTO.stream().map(this::createPersonDTO).collect(Collectors.toList());
+    public List<PersonDTO> createDTOList(List<Person> listVO) {
+        if (listVO == null) return new ArrayList<>();
+        List<PersonDTO> listDTO = new ArrayList<>();
+        for (Person person : listVO) {
+            PersonDTO personDTO = new PersonDTO();
+            personDTO.setID(person.getId());
+            personDTO.setName(person.getName());
+            personDTO.setSurname(person.getSurname());
+            personDTO.setAge(person.getAge());
+            listDTO.add(personDTO);
+        }
+        return listDTO;
     }
 
-    public List<Person> createVOList(List<PersonDTO> dtoList) {
-        if (dtoList == null) return null;
-        return dtoList.stream().map(this::createPersonVO).collect(Collectors.toList());
+    public List<Person> createVOList(List<PersonDTO> listDTO) {
+        if (listDTO == null) return null;
+        List<Person> listVO = new ArrayList<>();
+        for (PersonDTO personDTO : listDTO) {
+            Person person = new Person();
+            person.setId(personDTO.getID());
+            person.setName(personDTO.getName());
+            person.setSurname(personDTO.getSurname());
+            person.setAge(personDTO.getAge());
+            listVO.add(person);
+        }
+        return listVO;
+    }
+
+    public List<Person> createVOList(ResultSet resultSet) {
+        List<Person> listVO = new ArrayList<>();
+        try {
+            while (resultSet.next()) {
+                Person person = new Person();
+                person.setId(resultSet.getLong("id"));
+                person.setName(resultSet.getString("name"));
+                person.setSurname(resultSet.getString("surname"));
+                person.setAge(resultSet.getInt("age"));
+                listVO.add(person);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return listVO;
     }
 
 }

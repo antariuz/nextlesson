@@ -23,8 +23,7 @@ public class MSPersonDAO implements PersonDAO {
              PreparedStatement preparedStatement =
                      connection.prepareStatement("SELECT * FROM person");
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            //алло бля, тут лист нужен. переделать нахуй
-            personFactory.createPersonVO(resultSet);
+            list = personFactory.createVOList(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -33,16 +32,13 @@ public class MSPersonDAO implements PersonDAO {
 
     public Person getPersonByID(Long id) {
         Person person = null;
+        PersonFactory personFactory = PersonFactory.getInstance();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
                      connection.prepareStatement("SELECT * FROM person WHERE id='" + id + "'");
              ResultSet resultSet = preparedStatement.executeQuery()) {
             if (resultSet.next()) {
-                person = new Person();
-                person.setId(resultSet.getLong("id"));
-                person.setName(resultSet.getString("name"));
-                person.setSurname(resultSet.getString("surname"));
-                person.setAge(resultSet.getInt("age"));
+                person = personFactory.createPersonVO(resultSet);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,19 +48,12 @@ public class MSPersonDAO implements PersonDAO {
 
     public List<Person> getPersonLikeName(String name) {
         List<Person> list = null;
+        PersonFactory personFactory = PersonFactory.getInstance();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement
                      = connection.prepareStatement("SELECT * FROM person WHERE name LIKE '%" + name + "%'");
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            list = new ArrayList<>();
-            while (resultSet.next()) {
-                Person person = new Person();
-                person.setId(resultSet.getLong("id"));
-                person.setName(resultSet.getString("name"));
-                person.setSurname(resultSet.getString("surname"));
-                person.setAge(resultSet.getInt("age"));
-                list.add(person);
-            }
+            list = personFactory.createVOList(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -127,5 +116,6 @@ public class MSPersonDAO implements PersonDAO {
             e.printStackTrace();
         }
     }
+
 
 }

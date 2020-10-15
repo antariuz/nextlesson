@@ -1,4 +1,3 @@
-import dao.MSPersonDAO;
 import model.Person;
 import service.impl.PersonServiceImpl;
 
