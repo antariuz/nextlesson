@@ -11,5 +11,5 @@ public interface PersonDAO {
     List<Person> getPersonLikeName(String name);
     Long addPerson (Person person);
     void updatePerson (Person person);
-    void removePersonByID (Long personId);
+    void removePersonByID (Long id);
 }

@@ -16,6 +16,7 @@ public class MSPersonDAO implements PersonDAO {
     private static final String USER = "root";
     private static final String PASSWORD = "32167";
 
+    @Override
     public List<Person> getAllPerson() {
         List<Person> list = new ArrayList<>();
         PersonFactory personFactory = PersonFactory.getInstance();
@@ -30,6 +31,7 @@ public class MSPersonDAO implements PersonDAO {
         return list;
     }
 
+    @Override
     public Person getPersonByID(Long id) {
         Person person = null;
         PersonFactory personFactory = PersonFactory.getInstance();
@@ -46,6 +48,7 @@ public class MSPersonDAO implements PersonDAO {
         return person;
     }
 
+    @Override
     public List<Person> getPersonLikeName(String name) {
         List<Person> list = null;
         PersonFactory personFactory = PersonFactory.getInstance();
@@ -60,6 +63,7 @@ public class MSPersonDAO implements PersonDAO {
         return list;
     }
 
+    @Override
     public Long addPerson(Person person) {
         Long id = null;
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -89,6 +93,7 @@ public class MSPersonDAO implements PersonDAO {
         return id;
     }
 
+    @Override
     public void updatePerson(Person person) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
@@ -107,10 +112,11 @@ public class MSPersonDAO implements PersonDAO {
         }
     }
 
-    public void removePersonByID(Long personId) {
+    @Override
+    public void removePersonByID(Long id) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE FROM person WHERE id='" + personId + "'")) {
+                     connection.prepareStatement("DELETE FROM person WHERE id='" + id + "'")) {
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
