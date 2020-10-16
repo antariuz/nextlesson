@@ -1,3 +1,5 @@
+import service.CarService;
+import service.impl.CarServiceImpl;
 import service.impl.PersonServiceImpl;
 
 import javax.servlet.annotation.WebServlet;
@@ -20,10 +22,13 @@ public class MainServlet extends HttpServlet {
             e.printStackTrace();
         }
         PersonServiceImpl personService = new PersonServiceImpl();
-        JSON json = new JSON();
+        JSONPerson jsonPerson = new JSONPerson();
+        CarService carService = new CarServiceImpl();
+        JSONCar jsonCar = new JSONCar();
         resp.setContentType("text/html");
         try (PrintWriter printWriter = resp.getWriter()) {
-            printWriter.write(json.toJSON(personService.getAllPerson()));
+            printWriter.write(jsonPerson.toJSON(personService.getAllPerson()));
+            printWriter.write(jsonCar.toJSON(carService.getAllCar()));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,23 +1,23 @@
 import com.fasterxml.jackson.databind.ObjectMapper;
-import model.Person;
+import model.Car;
 
 import java.io.IOException;
 import java.util.List;
 
-public class JSON {
+public class JSONCar {
 
-    public String toJSON(Person person) {
+    public String toJSON(Car car) {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
         try {
-            json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(person);
+            json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(car);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return json;
     }
 
-    public String toJSON(List<Person> list) {
+    public String toJSON(List<Car> list) {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
         try {
@@ -28,15 +28,15 @@ public class JSON {
         return json;
     }
 
-    public Person toJavaObject(String json) {
+    public Car toJavaObject(String json) {
         ObjectMapper objectMapper = new ObjectMapper();
-        Person person = new Person();
+        Car car = new Car();
         try {
-            person = objectMapper.readValue(json, model.Person.class);
+            car = objectMapper.readValue(json, Car.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return person;
+        return car;
     }
 
 }

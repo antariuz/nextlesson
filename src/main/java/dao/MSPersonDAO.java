@@ -39,9 +39,7 @@ public class MSPersonDAO implements PersonDAO {
              PreparedStatement preparedStatement =
                      connection.prepareStatement("SELECT * FROM person WHERE id='" + id + "'");
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            if (resultSet.next()) {
-                person = personFactory.createPersonVO(resultSet);
-            }
+            person = personFactory.createPersonVO(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
