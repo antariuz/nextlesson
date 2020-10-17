@@ -3,10 +3,13 @@ package model;
 public class CarDTO {
     private Long id;
     private String model;
+    private Engine engine;
     private Integer manufacturedYear;
 
     public CarDTO() {
     }
+
+    private enum Engine {Pertol, Diesel, Gas}
 
     public Long getId() {
         return id;
@@ -22,6 +25,14 @@ public class CarDTO {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public Engine getEngine() {
+        return engine;
+    }
+
+    public void setEngine(Engine engine) {
+        this.engine = engine;
     }
 
     public Integer getManufacturedYear() {

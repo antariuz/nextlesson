@@ -38,7 +38,7 @@ public class MSCarDAO implements CarDAO {
         CarFactory carFactory = CarFactory.getInstance();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM car WHERE id='" + id + "'");
+                     connection.prepareStatement("SELECT * FROM car WHERE car_id='" + id + "'");
              ResultSet resultSet = preparedStatement.executeQuery()) {
             car = carFactory.createCarVO(resultSet);
         } catch (SQLException e) {
@@ -52,14 +52,14 @@ public class MSCarDAO implements CarDAO {
         Long id = null;
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO car(model, manufacturedYear) VALUES(?,?)");
+                     connection.prepareStatement("INSERT INTO car(model, engine, manufacturedYear) VALUES(?,?,?)");
              ResultSet resultSet = preparedStatement.executeQuery()) {
             preparedStatement.setString(1, car.getModel());
-            preparedStatement.setInt(2, car.getManufacturedYear());
+            preparedStatement.setObject(2, car.getEngine());
             if (car.getManufacturedYear() == null || car.getManufacturedYear() < 1886) {
-                preparedStatement.setNull(2, Types.INTEGER);
+                preparedStatement.setNull(3, Types.INTEGER);
             } else {
-                preparedStatement.setInt(2, car.getManufacturedYear());
+                preparedStatement.setInt(3, car.getManufacturedYear());
             }
             preparedStatement.execute();
 
@@ -68,10 +68,10 @@ public class MSCarDAO implements CarDAO {
         }
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM car ORDER BY id DESC LIMIT 0, 1")) {
+                     connection.prepareStatement("SELECT * FROM car ORDER BY car_id DESC LIMIT 0, 1")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                id = resultSet.getLong("id");
+                id = resultSet.getLong("car_id");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -85,14 +85,14 @@ public class MSCarDAO implements CarDAO {
         Car car = carFactory.createCarVO(carDTO);
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO car(model, manufacturedYear) VALUES(?,?)");
+                     connection.prepareStatement("INSERT INTO car(model, engine, manufacturedYear) VALUES(?,?,?)");
              ResultSet resultSet = preparedStatement.executeQuery()) {
             preparedStatement.setString(1, car.getModel());
-            preparedStatement.setInt(2, car.getManufacturedYear());
+            preparedStatement.setObject(2, car.getEngine());
             if (carDTO.getManufacturedYear() == null || car.getManufacturedYear() < 1886) {
-                preparedStatement.setNull(2, Types.INTEGER);
+                preparedStatement.setNull(3, Types.INTEGER);
             } else {
-                preparedStatement.setInt(2, car.getManufacturedYear());
+                preparedStatement.setInt(3, car.getManufacturedYear());
             }
             preparedStatement.execute();
 
@@ -101,10 +101,10 @@ public class MSCarDAO implements CarDAO {
         }
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM car ORDER BY id DESC LIMIT 0, 1")) {
+                     connection.prepareStatement("SELECT * FROM car ORDER BY car_id DESC LIMIT 0, 1")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                id = resultSet.getLong("id");
+                id = resultSet.getLong("car_id");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -116,12 +116,14 @@ public class MSCarDAO implements CarDAO {
     public void updateCar(Car car) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("update car set model = ?, manufacturedYear = ? where id = ?")) {
+                     connection.prepareStatement("update car set model = ?, engine = ?, manufacturedYear = ? " +
+                             "where car_id = ?")) {
             preparedStatement.setString(1, car.getModel());
+            preparedStatement.setObject(2, car.getEngine());
             if (car.getManufacturedYear() == null || car.getManufacturedYear() < 1886) {
-                preparedStatement.setNull(2, Types.INTEGER);
+                preparedStatement.setNull(3, Types.INTEGER);
             } else {
-                preparedStatement.setInt(2, car.getManufacturedYear());
+                preparedStatement.setInt(3, car.getManufacturedYear());
             }
             preparedStatement.setLong(4, car.getId());
             preparedStatement.execute();
@@ -134,7 +136,7 @@ public class MSCarDAO implements CarDAO {
     public void removeCarByID(Long id) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE FROM car WHERE id='" + id + "'")) {
+                     connection.prepareStatement("DELETE FROM car WHERE car_id='" + id + "'")) {
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

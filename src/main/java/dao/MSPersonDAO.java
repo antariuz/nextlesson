@@ -37,7 +37,7 @@ public class MSPersonDAO implements PersonDAO {
         PersonFactory personFactory = PersonFactory.getInstance();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM person WHERE id='" + id + "'");
+                     connection.prepareStatement("SELECT * FROM person WHERE person_id='" + id + "'");
              ResultSet resultSet = preparedStatement.executeQuery()) {
             person = personFactory.createPersonVO(resultSet);
         } catch (SQLException e) {
@@ -80,10 +80,10 @@ public class MSPersonDAO implements PersonDAO {
         }
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM person ORDER BY id DESC LIMIT 0, 1")) {
+                     connection.prepareStatement("SELECT * FROM person ORDER BY person_id DESC LIMIT 0, 1")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                id = resultSet.getLong("id");
+                id = resultSet.getLong("person_id");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -95,7 +95,7 @@ public class MSPersonDAO implements PersonDAO {
     public void updatePerson(Person person) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("update person set name = ?, surname = ?, age = ? where id = ?")) {
+                     connection.prepareStatement("update person set name = ?, surname = ?, age = ? where person_id = ?")) {
             preparedStatement.setString(1, person.getName());
             preparedStatement.setString(2, person.getSurname());
             if (person.getAge() == null || person.getAge() < 0) {
@@ -114,7 +114,7 @@ public class MSPersonDAO implements PersonDAO {
     public void removePersonByID(Long id) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE FROM person WHERE id='" + id + "'")) {
+                     connection.prepareStatement("DELETE FROM person WHERE person_id='" + id + "'")) {
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

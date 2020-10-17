@@ -22,6 +22,7 @@ public enum CarFactory {
         CarDTO carDTO = new CarDTO();
         carDTO.setId(car.getId());
         carDTO.setModel(car.getModel());
+        carDTO.setEngine((CarDTO.Engine) car.getEngine());
         carDTO.setManufacturedYear(car.getManufacturedYear());
         return carDTO;
     }
@@ -30,6 +31,7 @@ public enum CarFactory {
         Car carVO = new Car();
         carVO.setId(carDTO.getId());
         carVO.setModel(carDTO.getModel());
+        carVO.setEngine(carDTO.getEngine());
         carVO.setManufacturedYear(carDTO.getManufacturedYear());
         return carVO;
     }
@@ -40,6 +42,7 @@ public enum CarFactory {
             while (resultSet.next()) {
                 carVO.setId(resultSet.getLong("id"));
                 carVO.setModel(resultSet.getString("model"));
+                carVO.setEngine(resultSet.getObject("engine"));
                 carVO.setManufacturedYear(resultSet.getInt("manufacturedYear"));
             }
         } catch (SQLException e) {
