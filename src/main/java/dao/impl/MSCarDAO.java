@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MSCarDAO implements CarDAO {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/car" +
+    private static final String URL = "jdbc:mysql://localhost:3306/people" +
             "?autoReconnect=true" +
             "&useSSL=false" +
             "&useLegacyDatetimeCode=false" +
