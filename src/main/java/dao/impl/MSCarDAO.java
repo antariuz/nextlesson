@@ -2,7 +2,7 @@ package dao.impl;
 
 import dao.CarDAO;
 import dao.PersonDAO;
-import dao.factory.CarFactory;
+import factory.CarFactory;
 import model.Car;
 import model.Person;
 
@@ -25,9 +25,9 @@ public class MSCarDAO implements CarDAO {
         List<Car> list = new ArrayList<>();
         CarFactory carFactory = CarFactory.getInstance();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM car");
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             Statement statement =
+                     connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM car")) {
             list = carFactory.createCarVOList(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -40,9 +40,8 @@ public class MSCarDAO implements CarDAO {
         Car car = null;
         CarFactory carFactory = CarFactory.getInstance();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM car WHERE car_id='" + id + "'");
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM car WHERE car_id='" + id + "'");
             car = carFactory.createCarVO(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -83,9 +82,9 @@ public class MSCarDAO implements CarDAO {
             e.printStackTrace();
         }
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM car ORDER BY car_id DESC LIMIT 0, 1")) {
-            ResultSet resultSet = preparedStatement.executeQuery();
+             Statement statement =
+                     connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM car ORDER BY car_id DESC LIMIT 0, 1");
             while (resultSet.next()) {
                 id = resultSet.getLong("car_id");
             }
@@ -158,9 +157,9 @@ public class MSCarDAO implements CarDAO {
     @Override
     public void removeCarByID(Long id) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE FROM car WHERE car_id='" + id + "'")) {
-            preparedStatement.execute();
+             Statement statement =
+                     connection.createStatement()) {
+            statement.executeQuery("DELETE FROM car WHERE car_id='" + id + "'");
         } catch (SQLException e) {
             e.printStackTrace();
         }

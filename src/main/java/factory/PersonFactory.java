@@ -1,4 +1,4 @@
-package dao.factory;
+package factory;
 
 import model.Person;
 import model.PersonDTO;

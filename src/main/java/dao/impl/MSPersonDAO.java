@@ -1,7 +1,7 @@
 package dao.impl;
 
 import dao.PersonDAO;
-import dao.factory.PersonFactory;
+import factory.PersonFactory;
 import model.Person;
 
 import java.sql.*;
@@ -23,9 +23,9 @@ public class MSPersonDAO implements PersonDAO {
         List<Person> list = new ArrayList<>();
         PersonFactory personFactory = PersonFactory.getInstance();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM person");
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             Statement statement =
+                     connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM person")) {
             list = personFactory.createVOList(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -38,9 +38,9 @@ public class MSPersonDAO implements PersonDAO {
         Person person = null;
         PersonFactory personFactory = PersonFactory.getInstance();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM person WHERE person_id='" + id + "'");
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             Statement statement =
+                     connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM person WHERE person_id='" + id + "'")) {
             person = personFactory.createPersonVO(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,9 +53,9 @@ public class MSPersonDAO implements PersonDAO {
         List<Person> list = null;
         PersonFactory personFactory = PersonFactory.getInstance();
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement
-                     = connection.prepareStatement("SELECT * FROM person WHERE name LIKE '%" + name + "%'");
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             Statement statement
+                     = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM person WHERE name LIKE '%" + name + "%'")) {
             list = personFactory.createVOList(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -81,9 +81,9 @@ public class MSPersonDAO implements PersonDAO {
             e.printStackTrace();
         }
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement =
-                     connection.prepareStatement("SELECT * FROM person ORDER BY person_id DESC LIMIT 0, 1")) {
-            ResultSet resultSet = preparedStatement.executeQuery();
+             Statement statement =
+                     connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM person ORDER BY person_id DESC LIMIT 0, 1");
             while (resultSet.next()) {
                 id = resultSet.getLong("person_id");
             }
@@ -115,9 +115,9 @@ public class MSPersonDAO implements PersonDAO {
     @Override
     public void removePersonByID(Long id) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement =
-                     connection.prepareStatement("DELETE FROM person WHERE person_id='" + id + "'")) {
-            preparedStatement.execute();
+             Statement statement =
+                     connection.createStatement()) {
+            statement.executeQuery("DELETE FROM person WHERE person_id='" + id + "'");
         } catch (SQLException e) {
             e.printStackTrace();
         }

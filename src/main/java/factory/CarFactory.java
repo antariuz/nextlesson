@@ -1,11 +1,10 @@
-package dao.factory;
+package factory;
 
 import model.Car;
 import model.CarDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,13 +41,12 @@ public enum CarFactory {
     public Car createCarVO(ResultSet resultSet) {
         Car carVO = new Car();
         try {
-            while (resultSet.next()) {
-                carVO.setId(resultSet.getLong("car_id"));
-                carVO.setDriverID(resultSet.getLong("driver_id"));
-                carVO.setModel(resultSet.getString("model"));
-                carVO.setEngine(resultSet.getString("engine"));
-                carVO.setManufacturedYear(resultSet.getInt("manufacturedYear"));
-            }
+            resultSet.next();
+            carVO.setId(resultSet.getLong("car_id"));
+            carVO.setDriverID(resultSet.getLong("driver_id"));
+            carVO.setModel(resultSet.getString("model"));
+            carVO.setEngine(resultSet.getString("engine"));
+            carVO.setManufacturedYear(resultSet.getInt("manufacturedYear"));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
