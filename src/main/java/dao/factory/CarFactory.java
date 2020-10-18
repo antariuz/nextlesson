@@ -5,6 +5,7 @@ import model.CarDTO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +69,7 @@ public enum CarFactory {
             carVO.setId(carVO.getId());
             carVO.setDriverID(carVO.getDriverID());
             carVO.setModel(carVO.getModel());
+            carVO.setEngine(carVO.getEngine());
             carVO.setManufacturedYear(carVO.getManufacturedYear());
             listDTO.add(carDTO);
         }
@@ -80,8 +82,13 @@ public enum CarFactory {
             while (resultSet.next()) {
                 Car carVO = new Car();
                 carVO.setId(resultSet.getLong("car_id"));
-                carVO.setDriverID(resultSet.getLong("driver_id"));
+                if (carVO.getDriverID() == null || carVO.getDriverID() == 0) {
+                    carVO.setDriverID(null);
+                } else {
+                    carVO.setDriverID(resultSet.getLong("driver_id"));
+                }
                 carVO.setModel(resultSet.getString("model"));
+                carVO.setEngine(resultSet.getString("engine"));
                 carVO.setManufacturedYear(resultSet.getInt("manufacturedYear"));
                 listVO.add(carVO);
             }
@@ -105,6 +112,7 @@ public enum CarFactory {
             carVO.setId(carDTO.getId());
             carVO.setDriverID(carDTO.getDriverID());
             carVO.setModel(carDTO.getModel());
+            carVO.setEngine(carDTO.getEngine());
             carVO.setManufacturedYear(carDTO.getManufacturedYear());
             listVO.add(carVO);
         }

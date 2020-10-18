@@ -32,6 +32,7 @@ public class Servlet extends HttpServlet {
         resp.setContentType("text/html");
         try (PrintWriter printWriter = resp.getWriter()) {
             printWriter.write(jsonPerson.toJSON(personService.getAllPerson()));
+            printWriter.write("<br/>");
             printWriter.write(jsonCar.toJSON(carService.getAllCar()));
         } catch (IOException e) {
             e.printStackTrace();

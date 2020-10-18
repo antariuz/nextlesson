@@ -65,7 +65,11 @@ public class MSCarDAO implements CarDAO {
                      connection.prepareStatement("INSERT INTO car(driver_id, model, engine, manufacturedYear) " +
                              "VALUES(?,?,?,?)");
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            preparedStatement.setLong(1, car.getDriverID());
+            if (car.getDriverID() == null || car.getDriverID() == 0) {
+                preparedStatement.setNull(1, Types.INTEGER);
+            } else {
+                preparedStatement.setLong(1, car.getDriverID());
+            }
             preparedStatement.setString(2, car.getModel());
             preparedStatement.setString(3, car.getEngine());
             if (car.getManufacturedYear() == null || car.getManufacturedYear() < 1886) {
@@ -132,7 +136,11 @@ public class MSCarDAO implements CarDAO {
              PreparedStatement preparedStatement =
                      connection.prepareStatement("update car set driver_id = ?, model = ?, engine = ?, " +
                              "manufacturedYear = ? where car_id = ?")) {
-            preparedStatement.setLong(1, car.getDriverID());
+            if (car.getDriverID() == null || car.getDriverID() == 0) {
+                preparedStatement.setNull(1, Types.INTEGER);
+            } else {
+                preparedStatement.setLong(1, car.getDriverID());
+            }
             preparedStatement.setString(2, car.getModel());
             preparedStatement.setString(3, car.getEngine());
             if (car.getManufacturedYear() == null || car.getManufacturedYear() < 1886) {
