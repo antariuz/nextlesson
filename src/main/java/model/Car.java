@@ -4,44 +4,11 @@ public class Car {
 
     private Long id;
     private String model;
-    private Engine engine;
+    private String engine;
     private Integer manufacturedYear;
 
-    public static class Builder {
-
-        private final Car newCar;
-
-        public Builder() {
-            newCar = new Car();
-        }
-
-        public Builder withID(Long id) {
-            newCar.id = id;
-            return this;
-        }
-
-        public Builder withModel(String model) {
-            newCar.model = model;
-            return this;
-        }
-
-        public Builder withEngine(Engine engine) {
-            newCar.engine = engine;
-            return this;
-        }
-
-        public Builder withManufacturedYear(Integer manufacturedYear) {
-            newCar.manufacturedYear = manufacturedYear;
-            return this;
-        }
-
-        public Car build() {
-            return newCar;
-        }
-
+    public Car() {
     }
-
-    private enum Engine {Petrol, Diesel, Gas}
 
     public Long getId() {
         return id;
@@ -59,11 +26,11 @@ public class Car {
         this.model = model;
     }
 
-    public Engine getEngine() {
+    public String getEngine() {
         return engine;
     }
 
-    public void setEngine(Engine engine) {
+    public void setEngine(String engine) {
         this.engine = engine;
     }
 

@@ -1,7 +1,7 @@
 package service.impl;
 
 import dao.CarDAO;
-import dao.MSCarDAO;
+import dao.impl.MSCarDAO;
 import model.Car;
 import service.CarService;
 

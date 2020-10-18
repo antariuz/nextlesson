@@ -7,7 +7,8 @@ public class PersonDTO {
     private String surname;
     private Integer age;
 
-    public PersonDTO(){}
+    public PersonDTO() {
+    }
 
     public Long getID() {
         return id;

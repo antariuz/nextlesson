@@ -1,5 +1,6 @@
-package dao;
+package dao.impl;
 
+import dao.PersonDAO;
 import model.Person;
 
 import java.util.List;

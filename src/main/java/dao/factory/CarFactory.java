@@ -1,4 +1,4 @@
-package dao;
+package dao.factory;
 
 import model.Car;
 import model.CarDTO;
@@ -22,7 +22,7 @@ public enum CarFactory {
         CarDTO carDTO = new CarDTO();
         carDTO.setId(car.getId());
         carDTO.setModel(car.getModel());
-        carDTO.setEngine((CarDTO.Engine) car.getEngine());
+        carDTO.setEngine(car.getEngine());
         carDTO.setManufacturedYear(car.getManufacturedYear());
         return carDTO;
     }
@@ -42,7 +42,7 @@ public enum CarFactory {
             while (resultSet.next()) {
                 carVO.setId(resultSet.getLong("id"));
                 carVO.setModel(resultSet.getString("model"));
-                carVO.setEngine(resultSet.getObject("engine"));
+                carVO.setEngine(resultSet.getString("engine"));
                 carVO.setManufacturedYear(resultSet.getInt("manufacturedYear"));
             }
         } catch (SQLException e) {

@@ -1,4 +1,4 @@
-package dao;
+package dao.factory;
 
 import model.Person;
 import model.PersonDTO;
@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-enum PersonFactory {
+public enum PersonFactory {
 
     //SINGLETON IMPLEMENTATION
     INSTANCE;

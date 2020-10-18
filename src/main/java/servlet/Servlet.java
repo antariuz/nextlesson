@@ -1,3 +1,7 @@
+package servlet;
+
+import json.JSONCar;
+import json.JSONPerson;
 import service.CarService;
 import service.impl.CarServiceImpl;
 import service.impl.PersonServiceImpl;
@@ -12,7 +16,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 @WebServlet("")
-public class MainServlet extends HttpServlet {
+public class Servlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {

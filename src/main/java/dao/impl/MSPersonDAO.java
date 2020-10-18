@@ -1,5 +1,7 @@
-package dao;
+package dao.impl;
 
+import dao.PersonDAO;
+import dao.factory.PersonFactory;
 import model.Person;
 
 import java.sql.*;
@@ -120,6 +122,5 @@ public class MSPersonDAO implements PersonDAO {
             e.printStackTrace();
         }
     }
-
 
 }
