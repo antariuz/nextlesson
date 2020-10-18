@@ -1,8 +1,10 @@
 package dao.impl;
 
 import dao.CarDAO;
+import dao.PersonDAO;
 import dao.factory.CarFactory;
 import model.Car;
+import model.Person;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -49,18 +51,27 @@ public class MSCarDAO implements CarDAO {
     }
 
     @Override
+    public Person getDriverByID(Long id) {
+        PersonDAO personDAO = new MSPersonDAO();
+        personDAO.getPersonByID(id);
+        return personDAO.getPersonByID(id);
+    }
+
+    @Override
     public Long addCar(Car car) {
         Long id = null;
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO car(model, engine, manufacturedYear) VALUES(?,?,?)");
+                     connection.prepareStatement("INSERT INTO car(driver_id, model, engine, manufacturedYear) " +
+                             "VALUES(?,?,?,?)");
              ResultSet resultSet = preparedStatement.executeQuery()) {
-            preparedStatement.setString(1, car.getModel());
-            preparedStatement.setString(2, car.getEngine());
+            preparedStatement.setLong(1, car.getDriverID());
+            preparedStatement.setString(2, car.getModel());
+            preparedStatement.setString(3, car.getEngine());
             if (car.getManufacturedYear() == null || car.getManufacturedYear() < 1886) {
-                preparedStatement.setNull(3, Types.INTEGER);
+                preparedStatement.setNull(4, Types.INTEGER);
             } else {
-                preparedStatement.setInt(3, car.getManufacturedYear());
+                preparedStatement.setInt(4, car.getManufacturedYear());
             }
             preparedStatement.execute();
 
@@ -86,14 +97,16 @@ public class MSCarDAO implements CarDAO {
 //        Car car = carFactory.createCarVO(carDTO);
 //        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
 //             PreparedStatement preparedStatement =
-//                     connection.prepareStatement("INSERT INTO car(model, engine, manufacturedYear) VALUES(?,?,?)");
+//                     connection.prepareStatement("INSERT INTO car(driver_id, model, engine, manufacturedYear) " +
+//                             "VALUES(?,?,?,?)");
 //             ResultSet resultSet = preparedStatement.executeQuery()) {
-//            preparedStatement.setString(1, car.getModel());
-//            preparedStatement.setObject(2, car.getEngine());
+//            preparedStatement.setLong(1, car.getDriverID());
+//            preparedStatement.setString(2, car.getModel());
+//            preparedStatement.setObject(3, car.getEngine());
 //            if (carDTO.getManufacturedYear() == null || car.getManufacturedYear() < 1886) {
-//                preparedStatement.setNull(3, Types.INTEGER);
+//                preparedStatement.setNull(4, Types.INTEGER);
 //            } else {
-//                preparedStatement.setInt(3, car.getManufacturedYear());
+//                preparedStatement.setInt(4, car.getManufacturedYear());
 //            }
 //            preparedStatement.execute();
 //
@@ -117,16 +130,17 @@ public class MSCarDAO implements CarDAO {
     public void updateCar(Car car) {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("update car set model = ?, engine = ?, manufacturedYear = ? " +
-                             "where car_id = ?")) {
-            preparedStatement.setString(1, car.getModel());
-            preparedStatement.setString(2, car.getEngine());
+                     connection.prepareStatement("update car set driver_id = ?, model = ?, engine = ?, " +
+                             "manufacturedYear = ? where car_id = ?")) {
+            preparedStatement.setLong(1, car.getDriverID());
+            preparedStatement.setString(2, car.getModel());
+            preparedStatement.setString(3, car.getEngine());
             if (car.getManufacturedYear() == null || car.getManufacturedYear() < 1886) {
-                preparedStatement.setNull(3, Types.INTEGER);
+                preparedStatement.setNull(4, Types.INTEGER);
             } else {
-                preparedStatement.setInt(3, car.getManufacturedYear());
+                preparedStatement.setInt(4, car.getManufacturedYear());
             }
-            preparedStatement.setLong(4, car.getId());
+            preparedStatement.setLong(5, car.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

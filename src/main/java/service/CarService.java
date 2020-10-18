@@ -1,6 +1,7 @@
 package service;
 
 import model.Car;
+import model.Person;
 
 import java.util.List;
 
@@ -9,6 +10,8 @@ public interface CarService {
     List<Car> getAllCar();
 
     Car getCarByID(Long id);
+
+    Person getDriverByID(Long id);
 
     Long addCar(Car car);
 

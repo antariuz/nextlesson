@@ -33,7 +33,7 @@ public enum PersonFactory {
         Person person = new Person();
         try {
             while (resultSet.next()) {
-                person.setId(resultSet.getLong("id"));
+                person.setId(resultSet.getLong("person_id"));
                 person.setName(resultSet.getString("name"));
                 person.setSurname(resultSet.getString("surname"));
                 person.setAge(resultSet.getInt("age"));
@@ -92,7 +92,7 @@ public enum PersonFactory {
         try {
             while (resultSet.next()) {
                 Person person = new Person();
-                person.setId(resultSet.getLong("id"));
+                person.setId(resultSet.getLong("person_id"));
                 person.setName(resultSet.getString("name"));
                 person.setSurname(resultSet.getString("surname"));
                 person.setAge(resultSet.getInt("age"));

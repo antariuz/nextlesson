@@ -4,6 +4,7 @@ public class CarDTO {
 
     private Long id;
     private String model;
+    private Long driverID;
     private String engine;
     private Integer manufacturedYear;
 
@@ -24,6 +25,14 @@ public class CarDTO {
 
     public void setModel(String model) {
         this.model = model;
+    }
+
+    public Long getDriverID() {
+        return driverID;
+    }
+
+    public void setDriverID(Long driverID) {
+        this.driverID = driverID;
     }
 
     public String getEngine() {

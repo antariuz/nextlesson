@@ -21,6 +21,7 @@ public enum CarFactory {
     public CarDTO createCarDTO(Car car) {
         CarDTO carDTO = new CarDTO();
         carDTO.setId(car.getId());
+        carDTO.setDriverID(car.getDriverID());
         carDTO.setModel(car.getModel());
         carDTO.setEngine(car.getEngine());
         carDTO.setManufacturedYear(car.getManufacturedYear());
@@ -30,6 +31,7 @@ public enum CarFactory {
     public Car createCarVO(CarDTO carDTO) {
         Car carVO = new Car();
         carVO.setId(carDTO.getId());
+        carVO.setDriverID(carDTO.getDriverID());
         carVO.setModel(carDTO.getModel());
         carVO.setEngine(carDTO.getEngine());
         carVO.setManufacturedYear(carDTO.getManufacturedYear());
@@ -40,7 +42,8 @@ public enum CarFactory {
         Car carVO = new Car();
         try {
             while (resultSet.next()) {
-                carVO.setId(resultSet.getLong("id"));
+                carVO.setId(resultSet.getLong("car_id"));
+                carVO.setDriverID(resultSet.getLong("driver_id"));
                 carVO.setModel(resultSet.getString("model"));
                 carVO.setEngine(resultSet.getString("engine"));
                 carVO.setManufacturedYear(resultSet.getInt("manufacturedYear"));
@@ -63,6 +66,7 @@ public enum CarFactory {
         for (Car carVO : listVO) {
             CarDTO carDTO = new CarDTO();
             carVO.setId(carVO.getId());
+            carVO.setDriverID(carVO.getDriverID());
             carVO.setModel(carVO.getModel());
             carVO.setManufacturedYear(carVO.getManufacturedYear());
             listDTO.add(carDTO);
@@ -75,7 +79,8 @@ public enum CarFactory {
         try {
             while (resultSet.next()) {
                 Car carVO = new Car();
-                carVO.setId(resultSet.getLong("id"));
+                carVO.setId(resultSet.getLong("car_id"));
+                carVO.setDriverID(resultSet.getLong("driver_id"));
                 carVO.setModel(resultSet.getString("model"));
                 carVO.setManufacturedYear(resultSet.getInt("manufacturedYear"));
                 listVO.add(carVO);
@@ -98,6 +103,7 @@ public enum CarFactory {
         for (CarDTO carDTO : listDTO) {
             Car carVO = new Car();
             carVO.setId(carDTO.getId());
+            carVO.setDriverID(carDTO.getDriverID());
             carVO.setModel(carDTO.getModel());
             carVO.setManufacturedYear(carDTO.getManufacturedYear());
             listVO.add(carVO);
