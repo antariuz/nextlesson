@@ -1,7 +1,10 @@
 package factory;
 
+import dao.impl.MSCarDAO;
 import model.Car;
 import model.CarDTO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +13,8 @@ import java.util.List;
 
 public enum CarFactory {
     INSTANCE;
+
+    private static final Logger LOGGER = LogManager.getLogger(CarFactory.class.getName());
 
     CarFactory() {
     }
@@ -48,12 +53,12 @@ public enum CarFactory {
             carVO.setEngine(resultSet.getString("engine"));
             carVO.setManufacturedYear(resultSet.getInt("manufactured_year"));
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         } finally {
             try {
                 resultSet.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.error(e.getMessage(), e);
             }
         }
         return carVO;
@@ -80,7 +85,7 @@ public enum CarFactory {
             while (resultSet.next()) {
                 Car carVO = new Car();
                 carVO.setId(resultSet.getLong("car_id"));
-                if (carVO.getDriverID() == null || carVO.getDriverID() == 0) {
+                if (resultSet.getObject("driver_id") == null || resultSet.getLong("driver_id") == 0) {
                     carVO.setDriverID(null);
                 } else {
                     carVO.setDriverID(resultSet.getLong("driver_id"));

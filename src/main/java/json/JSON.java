@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 
 
-public class JSON {
+public class JSON <E> {
 
-    public <E> String toJSON(E e) {
+    public String toJSON(E e) {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
         try {

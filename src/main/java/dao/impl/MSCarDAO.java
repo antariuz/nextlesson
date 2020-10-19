@@ -5,6 +5,8 @@ import dao.PersonDAO;
 import factory.CarFactory;
 import model.Car;
 import model.Person;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class MSCarDAO implements CarDAO {
             "&serverTimezone=UTC";
     private static final String USER = "root";
     private static final String PASSWORD = "32167";
+    private static final Logger LOGGER = LogManager.getLogger(MSCarDAO.class.getName());
 
     @Override
     public List<Car> getAllCar() {
@@ -44,7 +47,7 @@ public class MSCarDAO implements CarDAO {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM car WHERE car_id='" + id + "'");
             car = carFactory.createCarVO(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e.getMessage(), e);
         }
         return car;
     }
