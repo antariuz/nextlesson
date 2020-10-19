@@ -46,7 +46,7 @@ public enum CarFactory {
             carVO.setDriverID(resultSet.getLong("driver_id"));
             carVO.setModel(resultSet.getString("model"));
             carVO.setEngine(resultSet.getString("engine"));
-            carVO.setManufacturedYear(resultSet.getInt("manufacturedYear"));
+            carVO.setManufacturedYear(resultSet.getInt("manufactured_year"));
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -87,7 +87,7 @@ public enum CarFactory {
                 }
                 carVO.setModel(resultSet.getString("model"));
                 carVO.setEngine(resultSet.getString("engine"));
-                carVO.setManufacturedYear(resultSet.getInt("manufacturedYear"));
+                carVO.setManufacturedYear(resultSet.getInt("manufactured_year"));
                 listVO.add(carVO);
             }
         } catch (SQLException e) {

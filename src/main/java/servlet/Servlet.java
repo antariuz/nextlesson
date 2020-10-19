@@ -29,9 +29,12 @@ public class Servlet extends HttpServlet {
         JSON json = new JSON();
         resp.setContentType("text/html");
         try (PrintWriter printWriter = resp.getWriter()) {
-            printWriter.write(json.personListToJSON(personService.getAllPerson()));
+            printWriter.write(json.toJSON(personService.getAllPerson()));
             printWriter.write("<br/>");
-            printWriter.write(json.carListToJSON(carService.getAllCar()));
+            printWriter.write(json.toJSON(carService.getAllCar()));
+//            printWriter.write(json.personListToJSON(personService.getAllPerson()));
+//            printWriter.write("<br/>");
+//            printWriter.write(json.carListToJSON(carService.getAllCar()));
         } catch (IOException e) {
             e.printStackTrace();
         }

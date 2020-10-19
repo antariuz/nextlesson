@@ -61,7 +61,7 @@ public class MSCarDAO implements CarDAO {
         Long id = null;
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO car(driver_id, model, engine, manufacturedYear) " +
+                     connection.prepareStatement("INSERT INTO car(driver_id, model, engine, manufactured_year) " +
                              "VALUES(?,?,?,?)");
              ResultSet resultSet = preparedStatement.executeQuery()) {
             if (car.getDriverID() == null || car.getDriverID() == 0) {
@@ -100,7 +100,7 @@ public class MSCarDAO implements CarDAO {
 //        Car car = carFactory.createCarVO(carDTO);
 //        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
 //             PreparedStatement preparedStatement =
-//                     connection.prepareStatement("INSERT INTO car(driver_id, model, engine, manufacturedYear) " +
+//                     connection.prepareStatement("INSERT INTO car(driver_id, model, engine, manufactured_year) " +
 //                             "VALUES(?,?,?,?)");
 //             ResultSet resultSet = preparedStatement.executeQuery()) {
 //            preparedStatement.setLong(1, car.getDriverID());
@@ -134,7 +134,7 @@ public class MSCarDAO implements CarDAO {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
                      connection.prepareStatement("update car set driver_id = ?, model = ?, engine = ?, " +
-                             "manufacturedYear = ? where car_id = ?")) {
+                             "manufactured_year = ? where car_id = ?")) {
             if (car.getDriverID() == null || car.getDriverID() == 0) {
                 preparedStatement.setNull(1, Types.INTEGER);
             } else {
