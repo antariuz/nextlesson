@@ -1,7 +1,6 @@
 package servlet;
 
-import json.JSONCar;
-import json.JSONPerson;
+import json.JSON;
 import service.CarService;
 import service.impl.CarServiceImpl;
 import service.impl.PersonServiceImpl;
@@ -26,14 +25,13 @@ public class Servlet extends HttpServlet {
             e.printStackTrace();
         }
         PersonServiceImpl personService = new PersonServiceImpl();
-        JSONPerson jsonPerson = new JSONPerson();
         CarService carService = new CarServiceImpl();
-        JSONCar jsonCar = new JSONCar();
+        JSON json = new JSON();
         resp.setContentType("text/html");
         try (PrintWriter printWriter = resp.getWriter()) {
-            printWriter.write(jsonPerson.toJSON(personService.getAllPerson()));
+            printWriter.write(json.personListToJSON(personService.getAllPerson()));
             printWriter.write("<br/>");
-            printWriter.write(jsonCar.toJSON(carService.getAllCar()));
+            printWriter.write(json.carListToJSON(carService.getAllCar()));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -11,8 +11,6 @@ public interface CarService {
 
     Car getCarByID(Long id);
 
-    Person getDriverByID(Long id);
-
     Long addCar(Car car);
 
     void updateCar(Car car);

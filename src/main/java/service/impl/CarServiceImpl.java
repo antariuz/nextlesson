@@ -3,7 +3,6 @@ package service.impl;
 import dao.CarDAO;
 import dao.impl.MSCarDAO;
 import model.Car;
-import model.Person;
 import service.CarService;
 
 import java.util.List;
@@ -20,12 +19,6 @@ public class CarServiceImpl implements CarService {
     public Car getCarByID(Long id) {
         CarDAO carDAO = new MSCarDAO();
         return carDAO.getCarByID(id);
-    }
-
-    @Override
-    public Person getDriverByID(Long id) {
-        CarDAO carDAO = new MSCarDAO();
-        return carDAO.getDriverByID(id);
     }
 
     @Override

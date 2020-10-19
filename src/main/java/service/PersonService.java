@@ -14,4 +14,6 @@ public interface PersonService {
 
     void removePersonByID(Long id);
 
+    Person getDriverByID(Long id);
+
 }

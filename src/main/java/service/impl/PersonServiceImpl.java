@@ -1,5 +1,7 @@
 package service.impl;
 
+import dao.CarDAO;
+import dao.impl.MSCarDAO;
 import dao.impl.MSPersonDAO;
 import dao.PersonDAO;
 import model.Person;
@@ -37,6 +39,12 @@ public class PersonServiceImpl implements PersonService {
     public List<Person> getAllPerson() {
         PersonDAO personDAO = new MSPersonDAO();
         return personDAO.getAllPerson();
+    }
+
+    @Override
+    public Person getDriverByID(Long id) {
+        CarDAO carDAO = new MSCarDAO();
+        return carDAO.getDriverByID(id);
     }
 
 }
