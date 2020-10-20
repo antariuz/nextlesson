@@ -3,20 +3,20 @@ package dao.impl;
 import dao.PersonDAO;
 import factory.PersonFactory;
 import model.Person;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class MSPersonDAO implements PersonDAO {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/people" +
-            "?autoReconnect=true" +
-            "&useSSL=false" +
-            "&useLegacyDatetimeCode=false" +
-            "&serverTimezone=UTC";
-    private static final String USER = "root";
-    private static final String PASSWORD = "32167";
+    private final String URL = new Properties().getProperty("db.url");
+    private final String USER = new Properties().getProperty("db.user");
+    private final String PASSWORD = new Properties().getProperty("db.password");
+    private final Logger LOGGER = LogManager.getLogger(MSPersonDAO.class.getName());
 
     @Override
     public List<Person> getAllPerson() {
@@ -28,7 +28,7 @@ public class MSPersonDAO implements PersonDAO {
              ResultSet resultSet = statement.executeQuery("SELECT * FROM person")) {
             list = personFactory.createVOList(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
         return list;
     }
@@ -43,7 +43,7 @@ public class MSPersonDAO implements PersonDAO {
              ResultSet resultSet = statement.executeQuery("SELECT * FROM person WHERE person_id='" + id + "'")) {
             person = personFactory.createPersonVO(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
         return person;
     }
@@ -58,7 +58,7 @@ public class MSPersonDAO implements PersonDAO {
              ResultSet resultSet = statement.executeQuery("SELECT * FROM person WHERE name LIKE '%" + name + "%'")) {
             list = personFactory.createVOList(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
         return list;
     }
@@ -78,7 +78,7 @@ public class MSPersonDAO implements PersonDAO {
             }
             preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              Statement statement =
@@ -88,7 +88,7 @@ public class MSPersonDAO implements PersonDAO {
                 id = resultSet.getLong("person_id");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
         return id;
     }
@@ -108,7 +108,7 @@ public class MSPersonDAO implements PersonDAO {
             preparedStatement.setLong(4, person.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
     }
 
@@ -119,7 +119,7 @@ public class MSPersonDAO implements PersonDAO {
                      connection.createStatement()) {
             statement.executeQuery("DELETE FROM person WHERE person_id='" + id + "'");
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
     }
 

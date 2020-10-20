@@ -2,6 +2,8 @@ package factory;
 
 import model.Person;
 import model.PersonDTO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public enum PersonFactory {
-
-    //SINGLETON IMPLEMENTATION
     INSTANCE;
+
+    private final Logger LOGGER = LogManager.getLogger(PersonFactory.class.getName());
 
     PersonFactory() {
     }
@@ -39,12 +41,12 @@ public enum PersonFactory {
                 person.setAge(resultSet.getInt("age"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         } finally {
             try {
                 resultSet.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.error(e);
             }
         }
         return person;
@@ -99,12 +101,12 @@ public enum PersonFactory {
                 listVO.add(person);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         } finally {
             try {
                 resultSet.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.error(e);
             }
         }
         return listVO;

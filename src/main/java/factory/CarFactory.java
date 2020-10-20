@@ -1,6 +1,5 @@
 package factory;
 
-import dao.impl.MSCarDAO;
 import model.Car;
 import model.CarDTO;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +13,7 @@ import java.util.List;
 public enum CarFactory {
     INSTANCE;
 
-    private static final Logger LOGGER = LogManager.getLogger(CarFactory.class.getName());
+    private final Logger LOGGER = LogManager.getLogger(CarFactory.class.getName());
 
     CarFactory() {
     }
@@ -53,12 +52,12 @@ public enum CarFactory {
             carVO.setEngine(resultSet.getString("engine"));
             carVO.setManufacturedYear(resultSet.getInt("manufactured_year"));
         } catch (SQLException e) {
-            LOGGER.error(e.getMessage(), e);
+            LOGGER.error(e);
         } finally {
             try {
                 resultSet.close();
             } catch (SQLException e) {
-                LOGGER.error(e.getMessage(), e);
+                LOGGER.error(e);
             }
         }
         return carVO;
@@ -96,12 +95,12 @@ public enum CarFactory {
                 listVO.add(carVO);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         } finally {
             try {
                 resultSet.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                LOGGER.error(e);
             }
         }
         return listVO;

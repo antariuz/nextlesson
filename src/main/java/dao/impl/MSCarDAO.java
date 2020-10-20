@@ -11,17 +11,14 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class MSCarDAO implements CarDAO {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/people" +
-            "?autoReconnect=true" +
-            "&useSSL=false" +
-            "&useLegacyDatetimeCode=false" +
-            "&serverTimezone=UTC";
-    private static final String USER = "root";
-    private static final String PASSWORD = "32167";
-    private static final Logger LOGGER = LogManager.getLogger(MSCarDAO.class.getName());
+    private final String URL = new Properties().getProperty("db.url");
+    private final String USER = new Properties().getProperty("db.user");
+    private final String PASSWORD = new Properties().getProperty("db.password");
+    private final Logger LOGGER = LogManager.getLogger(MSCarDAO.class.getName());
 
     @Override
     public List<Car> getAllCar() {
@@ -33,7 +30,7 @@ public class MSCarDAO implements CarDAO {
              ResultSet resultSet = statement.executeQuery("SELECT * FROM car")) {
             list = carFactory.createCarVOList(resultSet);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
         return list;
     }
@@ -47,7 +44,7 @@ public class MSCarDAO implements CarDAO {
             ResultSet resultSet = statement.executeQuery("SELECT * FROM car WHERE car_id='" + id + "'");
             car = carFactory.createCarVO(resultSet);
         } catch (SQLException e) {
-            LOGGER.error(e.getMessage(), e);
+            LOGGER.error(e);
         }
         return car;
     }
@@ -82,7 +79,7 @@ public class MSCarDAO implements CarDAO {
             preparedStatement.execute();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              Statement statement =
@@ -92,7 +89,7 @@ public class MSCarDAO implements CarDAO {
                 id = resultSet.getLong("car_id");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
         return id;
     }
@@ -117,7 +114,7 @@ public class MSCarDAO implements CarDAO {
 //            preparedStatement.execute();
 //
 //        } catch (SQLException e) {
-//            e.printStackTrace();
+//            LOGGER.error(e);
 //        }
 //        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
 //             PreparedStatement preparedStatement =
@@ -127,7 +124,7 @@ public class MSCarDAO implements CarDAO {
 //                id = resultSet.getLong("car_id");
 //            }
 //        } catch (SQLException e) {
-//            e.printStackTrace();
+//            LOGGER.error(e);
 //        }
 //        return id;
 //    }
@@ -153,7 +150,7 @@ public class MSCarDAO implements CarDAO {
             preparedStatement.setLong(5, car.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
     }
 
@@ -164,7 +161,7 @@ public class MSCarDAO implements CarDAO {
                      connection.createStatement()) {
             statement.executeQuery("DELETE FROM car WHERE car_id='" + id + "'");
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error(e);
         }
     }
 
