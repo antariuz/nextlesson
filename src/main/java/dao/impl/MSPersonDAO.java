@@ -1,5 +1,6 @@
 package dao.impl;
 
+import db.MySQL;
 import dao.PersonDAO;
 import factory.PersonFactory;
 import model.Person;
@@ -9,20 +10,16 @@ import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class MSPersonDAO implements PersonDAO {
 
-    private final String URL = new Properties().getProperty("db.url");
-    private final String USER = new Properties().getProperty("db.user");
-    private final String PASSWORD = new Properties().getProperty("db.password");
     private final Logger LOGGER = LogManager.getLogger(MSPersonDAO.class.getName());
 
     @Override
     public List<Person> getAllPerson() {
         List<Person> list = new ArrayList<>();
         PersonFactory personFactory = PersonFactory.getInstance();
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = new MySQL().getConnection();
              Statement statement =
                      connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM person")) {
@@ -37,7 +34,7 @@ public class MSPersonDAO implements PersonDAO {
     public Person getPersonByID(Long id) {
         Person person = null;
         PersonFactory personFactory = PersonFactory.getInstance();
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = new MySQL().getConnection();
              Statement statement =
                      connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM person WHERE person_id='" + id + "'")) {
@@ -52,7 +49,7 @@ public class MSPersonDAO implements PersonDAO {
     public List<Person> getPersonLikeName(String name) {
         List<Person> list = null;
         PersonFactory personFactory = PersonFactory.getInstance();
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = new MySQL().getConnection();
              Statement statement
                      = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * FROM person WHERE name LIKE '%" + name + "%'")) {
@@ -66,9 +63,10 @@ public class MSPersonDAO implements PersonDAO {
     @Override
     public Long addPerson(Person person) {
         Long id = null;
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = new MySQL().getConnection();
              PreparedStatement preparedStatement =
-                     connection.prepareStatement("INSERT INTO person(name, surname, age) VALUES(?,?,?)")) {
+                     connection.prepareStatement("INSERT INTO person(name, surname, age) VALUES(?,?,?)",
+                             PreparedStatement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, person.getName());
             preparedStatement.setString(2, person.getSurname());
             if (person.getAge() == null || person.getAge() < 0) {
@@ -77,17 +75,10 @@ public class MSPersonDAO implements PersonDAO {
                 preparedStatement.setInt(3, person.getAge());
             }
             preparedStatement.execute();
-        } catch (SQLException e) {
-            LOGGER.error(e);
-        }
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement statement =
-                     connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM person ORDER BY person_id DESC LIMIT 0, 1");
-            while (resultSet.next()) {
-                id = resultSet.getLong("person_id");
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                id = resultSet.next() ? resultSet.getLong(1) : null;
             }
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             LOGGER.error(e);
         }
         return id;
@@ -95,7 +86,7 @@ public class MSPersonDAO implements PersonDAO {
 
     @Override
     public void updatePerson(Person person) {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = new MySQL().getConnection();
              PreparedStatement preparedStatement =
                      connection.prepareStatement("update person set name = ?, surname = ?, age = ? where person_id = ?")) {
             preparedStatement.setString(1, person.getName());
@@ -114,7 +105,7 @@ public class MSPersonDAO implements PersonDAO {
 
     @Override
     public void removePersonByID(Long id) {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        try (Connection connection = new MySQL().getConnection();
              Statement statement =
                      connection.createStatement()) {
             statement.executeQuery("DELETE FROM person WHERE person_id='" + id + "'");
