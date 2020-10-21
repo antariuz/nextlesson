@@ -8,6 +8,8 @@ import model.Person;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +17,25 @@ import java.util.Properties;
 
 public class MSCarDAO implements CarDAO {
 
-    private final String URL = new Properties().getProperty("db.url");
-    private final String USER = new Properties().getProperty("db.user");
-    private final String PASSWORD = new Properties().getProperty("db.password");
     private final Logger LOGGER = LogManager.getLogger(MSCarDAO.class.getName());
+    private final String URL = dbConfigLoad().get(0);
+    private final String USER = dbConfigLoad().get(1);
+    private final String PASSWORD = dbConfigLoad().get(2);
+
+    private List<String> dbConfigLoad() {
+        Properties properties = new Properties();
+        List<String> list = new ArrayList<>();
+        try (FileInputStream fileInputStream = new FileInputStream("src/main/resources/db.properties")) {
+            properties.load(fileInputStream);
+            list.add(properties.getProperty("db.url"));
+            list.add(properties.getProperty("db.user"));
+            list.add(properties.getProperty("db.password"));
+        } catch (IOException e) {
+            LOGGER.error(e);
+        }
+        return list;
+    }
+
 
     @Override
     public List<Car> getAllCar() {
@@ -62,8 +79,7 @@ public class MSCarDAO implements CarDAO {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
              PreparedStatement preparedStatement =
                      connection.prepareStatement("INSERT INTO car(driver_id, model, engine, manufactured_year) " +
-                             "VALUES(?,?,?,?)");
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+                             "VALUES(?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS)) {
             if (car.getDriverID() == null || car.getDriverID() == 0) {
                 preparedStatement.setNull(1, Types.INTEGER);
             } else {
@@ -77,19 +93,11 @@ public class MSCarDAO implements CarDAO {
                 preparedStatement.setInt(4, car.getManufacturedYear());
             }
             preparedStatement.execute();
-
-        } catch (SQLException e) {
-            LOGGER.error(e);
-        }
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             Statement statement =
-                     connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM car ORDER BY car_id DESC LIMIT 0, 1");
-            while (resultSet.next()) {
-                id = resultSet.getLong("car_id");
+            try (ResultSet resultSet = preparedStatement.getGeneratedKeys()) {
+                id = resultSet.next() ? resultSet.getLong(1) : null;
             }
-        } catch (SQLException e) {
-            LOGGER.error(e);
+        } catch (SQLException | NullPointerException e) {
+            LOGGER.error(e.getMessage(), e);
         }
         return id;
     }
@@ -98,36 +106,7 @@ public class MSCarDAO implements CarDAO {
 //        Long id = null;
 //        CarFactory carFactory = CarFactory.getInstance();
 //        Car car = carFactory.createCarVO(carDTO);
-//        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-//             PreparedStatement preparedStatement =
-//                     connection.prepareStatement("INSERT INTO car(driver_id, model, engine, manufactured_year) " +
-//                             "VALUES(?,?,?,?)");
-//             ResultSet resultSet = preparedStatement.executeQuery()) {
-//            preparedStatement.setLong(1, car.getDriverID());
-//            preparedStatement.setString(2, car.getModel());
-//            preparedStatement.setObject(3, car.getEngine());
-//            if (carDTO.getManufacturedYear() == null || car.getManufacturedYear() < 1886) {
-//                preparedStatement.setNull(4, Types.INTEGER);
-//            } else {
-//                preparedStatement.setInt(4, car.getManufacturedYear());
-//            }
-//            preparedStatement.execute();
-//
-//        } catch (SQLException e) {
-//            LOGGER.error(e);
-//        }
-//        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-//             PreparedStatement preparedStatement =
-//                     connection.prepareStatement("SELECT * FROM car ORDER BY car_id DESC LIMIT 0, 1")) {
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//            while (resultSet.next()) {
-//                id = resultSet.getLong("car_id");
-//            }
-//        } catch (SQLException e) {
-//            LOGGER.error(e);
-//        }
-//        return id;
-//    }
+//        try (Connection connection = ...
 
     @Override
     public void updateCar(Car car) {
