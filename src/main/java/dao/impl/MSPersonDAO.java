@@ -85,6 +85,29 @@ public class MSPersonDAO implements PersonDAO {
     }
 
     @Override
+    public void addPersonList(List<Person> list) {
+        if (!list.isEmpty()) {
+            for (Person person : list) {
+                try (Connection connection = new MySQL().getConnection();
+                     PreparedStatement preparedStatement =
+                             connection.prepareStatement("INSERT INTO person(name, surname, age) VALUES(?,?,?)",
+                                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+                    preparedStatement.setString(1, person.getName());
+                    preparedStatement.setString(2, person.getSurname());
+                    if (person.getAge() == null || person.getAge() < 0) {
+                        preparedStatement.setNull(3, Types.INTEGER);
+                    } else {
+                        preparedStatement.setInt(3, person.getAge());
+                    }
+                    preparedStatement.execute();
+                } catch (SQLException | NullPointerException e) {
+                    LOGGER.error(e);
+                }
+            }
+        }
+    }
+
+    @Override
     public void updatePerson(Person person) {
         try (Connection connection = new MySQL().getConnection();
              PreparedStatement preparedStatement =

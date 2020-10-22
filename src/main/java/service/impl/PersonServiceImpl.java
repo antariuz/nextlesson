@@ -21,7 +21,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public void addPersonList(List<Person> list) {
         PersonDAO personDAO = new MSPersonDAO();
-        personDAO.getAllPerson().addAll(list);
+        personDAO.addPersonList(list);
     }
 
     @Override

@@ -18,4 +18,6 @@ public interface PersonDAO {
 
     void removePersonByID(Long id);
 
+    void addPersonList(List<Person> list);
+
 }
