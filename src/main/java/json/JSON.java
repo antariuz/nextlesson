@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
-public class JSON<E> {
+public class JSON <E> {
 
     private final Logger LOGGER = LogManager.getLogger(JSON.class.getName());
 

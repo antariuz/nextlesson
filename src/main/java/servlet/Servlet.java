@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("")
 public class Servlet extends HttpServlet {
@@ -25,7 +26,7 @@ public class Servlet extends HttpServlet {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
             PersonService personService = new PersonServiceImpl();
             CarService carService = new CarServiceImpl();
-            JSON json = new JSON();
+            JSON<List> json = new JSON<>();
             resp.setContentType("text/html");
             printWriter.write(json.toJSON(personService.getAllPerson()));
             printWriter.write("<br/>");
