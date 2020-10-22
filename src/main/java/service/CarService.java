@@ -1,7 +1,6 @@
 package service;
 
 import model.Car;
-import model.Person;
 
 import java.util.List;
 

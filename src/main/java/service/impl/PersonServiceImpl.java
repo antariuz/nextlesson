@@ -1,9 +1,9 @@
 package service.impl;
 
 import dao.CarDAO;
+import dao.PersonDAO;
 import dao.impl.MSCarDAO;
 import dao.impl.MSPersonDAO;
-import dao.PersonDAO;
 import model.Person;
 import service.PersonService;
 

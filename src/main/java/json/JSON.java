@@ -2,16 +2,17 @@ package json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import model.Person;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
+import java.util.List;
 
 public class JSON <E> {
 
     private final Logger LOGGER = LogManager.getLogger(JSON.class.getName());
 
-    public String toJSON(E e) {
+    public String toJSON(List<E> e) {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
         try {

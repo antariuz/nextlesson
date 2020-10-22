@@ -3,6 +3,7 @@ package service.impl;
 import dao.CarDAO;
 import dao.impl.MSCarDAO;
 import model.Car;
+import model.Person;
 import service.CarService;
 
 import java.util.List;

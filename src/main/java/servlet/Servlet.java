@@ -1,6 +1,8 @@
 package servlet;
 
 import json.JSON;
+import model.Car;
+import model.Person;
 import service.CarService;
 import service.PersonService;
 import service.impl.CarServiceImpl;
@@ -26,11 +28,12 @@ public class Servlet extends HttpServlet {
             DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
             PersonService personService = new PersonServiceImpl();
             CarService carService = new CarServiceImpl();
-            JSON<List> json = new JSON<>();
+            JSON<Person> json = new JSON<>();
+            JSON<Car> json2 = new JSON<>();
             resp.setContentType("text/html");
             printWriter.write(json.toJSON(personService.getAllPerson()));
             printWriter.write("<br/>");
-            printWriter.write(json.toJSON(carService.getAllCar()));
+            printWriter.write(json2.toJSON(carService.getAllCar()));
         } catch (IOException | SQLException e) {
             e.printStackTrace();
         }
