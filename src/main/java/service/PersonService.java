@@ -8,6 +8,8 @@ public interface PersonService {
 
     List<Person> addAndGetAllPerson(Person person);
 
+    List<Person> getAllPerson();
+
     void addPersonList(List<Person> list);
 
     void updatePerson(Person person);

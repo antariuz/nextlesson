@@ -36,6 +36,7 @@ public class PersonServiceImpl implements PersonService {
         personDAO.removePersonByID(id);
     }
 
+    @Override
     public List<Person> getAllPerson() {
         PersonDAO personDAO = new MSPersonDAO();
         return personDAO.getAllPerson();

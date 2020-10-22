@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
-
 public class JSON<E> {
 
     private final Logger LOGGER = LogManager.getLogger(JSON.class.getName());
@@ -16,17 +15,11 @@ public class JSON<E> {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = null;
         try {
-            json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e);
+            json = objectMapper.writeValueAsString(e);
         } catch (JsonProcessingException exception) {
             LOGGER.error(exception);
         }
         return json;
     }
-
-//    public String toJSON(E e) throws JsonProcessingException {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(e);
-//        return json;
-//    }
 
 }
